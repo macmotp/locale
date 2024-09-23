@@ -13,6 +13,11 @@ use Macmotp\Countries\Support\CountryInterface;
  */
 class Country
 {
+    public const AD = 'AD'; // Andorra
+    public const AE = 'AE'; // United Arab Emirates
+    public const AF = 'AF'; // Afghanistan
+    public const AG = 'AG'; // Antigua and Barbuda
+    public const AI = 'AI'; // Anguilla
     public const IT = 'IT'; // Italy
     public const US = 'US'; // United States of America
 
@@ -94,6 +99,26 @@ class Country
     public function getDialCode(): string
     {
         return $this->country->getDialCode();
+    }
+
+    /**
+     * Get Tld
+     *
+     * @return string
+     */
+    public function getTld(): string
+    {
+        return $this->country->getTld();
+    }
+
+    /**
+     * Get Date Format
+     *
+     * @return string
+     */
+    public function getDateFormat(): string
+    {
+        return $this->country->getDateFormat();
     }
 
     /**

@@ -2,9 +2,9 @@
 
 namespace Macmotp\Country\Tests\Unit;
 
-use DateTimeZone;
 use Macmotp\Continent;
 use Macmotp\Country;
+use Macmotp\Currency;
 use Macmotp\Language;
 use Macmotp\Timezone;
 use PHPUnit\Framework\TestCase;
@@ -27,6 +27,8 @@ class CountryTest extends TestCase
      * @param string $outputCode
      * @param string $outputAlpha3Code
      * @param string $outputDialCode
+     * @param string $outputTld
+     * @param string $outputDateFormat
      * @param string $outputDefaultCurrency
      * @param string $outputDefaultTimezone
      * @param string $outputDefaultLanguage
@@ -40,6 +42,8 @@ class CountryTest extends TestCase
         string $outputCode,
         string $outputAlpha3Code,
         string $outputDialCode,
+        string $outputTld,
+        string $outputDateFormat,
         string $outputDefaultCurrency,
         string $outputDefaultTimezone,
         string $outputDefaultLanguage,
@@ -52,6 +56,8 @@ class CountryTest extends TestCase
         $this->assertEquals($outputCode, $country->getCode());
         $this->assertEquals($outputAlpha3Code, $country->getAlpha3Code());
         $this->assertEquals($outputDialCode, $country->getDialCode());
+        $this->assertEquals($outputTld, $country->getTld());
+        $this->assertEquals($outputDateFormat, $country->getDateFormat());
         $this->assertEquals($outputDefaultCurrency, $country->getDefaultCurrency());
         $this->assertEquals($outputDefaultTimezone, $country->getDefaultTimezone());
         $this->assertEquals($outputDefaultLanguage, $country->getDefaultLanguage());
@@ -65,7 +71,7 @@ class CountryTest extends TestCase
         $country = new Country(Country::US);
 
         $this->assertEquals([
-            'USD',
+            Currency::USD,
         ], $country->getCurrencies()->toArray());
     }
 
@@ -77,7 +83,7 @@ class CountryTest extends TestCase
         $country = new Country(Country::US);
 
         $this->assertEquals([
-            //
+            Timezone::AMERICA_NEW_YORK,
         ], $country->getTimezones()->toArray());
     }
 
@@ -89,7 +95,7 @@ class CountryTest extends TestCase
         $country = new Country(Country::US);
 
         $this->assertEquals([
-            //
+            Language::ENGLISH
         ], $country->getLanguages()->toArray());
     }
 
@@ -98,7 +104,7 @@ class CountryTest extends TestCase
      */
     public function testGetAllCountriesFunction(): void
     {
-        $this->assertCount(197, Country::all());
+        $this->assertCount(6, Country::all());
     }
 
     /**
@@ -106,7 +112,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesByCurrencyFunction(): void
     {
-        $this->assertCount(4, Country::all()->withCurrency('USD'));
+        $this->assertCount(1, Country::all()->withCurrency(Currency::USD));
     }
 
     /**
@@ -114,7 +120,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesByLanguageFunction(): void
     {
-        $this->assertCount(6, Country::all()->speaking(Language::ENGLISH));
+        $this->assertCount(3, Country::all()->speaking(Language::ENGLISH));
     }
 
     /**
@@ -122,7 +128,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesByContinentFunction(): void
     {
-        $this->assertCount(36, Country::all()->ofContinent(Continent::EUROPE));
+        $this->assertCount(1, Country::all()->ofContinent(Continent::EUROPE));
     }
 
     /**
@@ -130,7 +136,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesChainedFunction(): void
     {
-        $this->assertCount(36, Country::all()->ofContinent(Continent::AFRICA)->speaking(Language::ENGLISH)->withCurrency('USD'));
+        $this->assertCount(0, Country::all()->ofContinent(Continent::AFRICA)->speaking(Language::ENGLISH)->withCurrency('USD'));
     }
 
     /**
@@ -141,7 +147,34 @@ class CountryTest extends TestCase
     public static function listConstructors(): array
     {
         return [
-            [Country::US, Continent::NORTH_AMERICA, 'United States of America', 'Washington', 'US', 'USA', '+1', 'USD', Timezone::AMERICA_NEW_YORK, Language::ENGLISH],
+            [
+                Country::AD,
+                Continent::EUROPE,
+                'Andorra',
+                'Andorra la Vella',
+                'AD',
+                'AND',
+                '+376',
+                '.ad',
+                'd-m-Y',
+                Currency::EUR,
+                Timezone::EUROPE_ANDORRA,
+                Language::CATALAN
+            ],
+            [
+                Country::US,
+                Continent::NORTH_AMERICA,
+                'United States of America',
+                'Washington',
+                'US',
+                'USA',
+                '+1',
+                '.us',
+                'm-d-Y',
+                Currency::USD,
+                Timezone::AMERICA_NEW_YORK,
+                Language::ENGLISH
+            ],
         ];
     }
 }

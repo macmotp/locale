@@ -10,11 +10,11 @@ abstract class AbstractCountry implements CountryInterface
     private string $continent;
     private string $name;
     private string $capital;
-    private string $demonym;
     private string $code;
     private string $alpha3Code;
     private string $dialCode;
     private string $tld;
+    private string $dateFormat;
     private string $defaultCurrency;
     private string $defaultTimezone;
     private string $defaultLanguage;
@@ -80,6 +80,26 @@ abstract class AbstractCountry implements CountryInterface
     public function getDialCode(): string
     {
         return $this->dialCode;
+    }
+
+    /**
+     * Get Tld
+     *
+     * @return string
+     */
+    public function getTld(): string
+    {
+        return $this->tld;
+    }
+
+    /**
+     * Get Date Format
+     *
+     * @return string
+     */
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat;
     }
 
     /**
@@ -221,6 +241,34 @@ abstract class AbstractCountry implements CountryInterface
     public function setDialCode(string $dialCode): CountryInterface
     {
         $this->dialCode = $dialCode;
+
+        return $this;
+    }
+
+    /**
+     * Set Tld
+     *
+     * @param string $tld
+     *
+     * @return CountryInterface
+     */
+    public function setTld(string $tld): CountryInterface
+    {
+        $this->tld = $tld;
+
+        return $this;
+    }
+
+    /**
+     * Set Date Format
+     *
+     * @param string $dateFormat
+     *
+     * @return CountryInterface
+     */
+    public function setDateFormat(string $dateFormat): CountryInterface
+    {
+        $this->dateFormat = $dateFormat;
 
         return $this;
     }

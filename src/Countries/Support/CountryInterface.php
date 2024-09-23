@@ -50,6 +50,20 @@ interface CountryInterface
     public function getDialCode(): string;
 
     /**
+     * Get Tld
+     *
+     * @return string
+     */
+    public function getTld(): string;
+
+    /**
+     * Get Date Format
+     *
+     * @return string
+     */
+    public function getDateFormat(): string;
+
+    /**
      * Get Default Currency
      *
      * @return string
@@ -138,6 +152,24 @@ interface CountryInterface
      * @return CountryInterface
      */
     public function setDialCode(string $dialCode): CountryInterface;
+
+    /**
+     * Set Tld
+     *
+     * @param string $tld
+     *
+     * @return CountryInterface
+     */
+    public function setTld(string $tld): CountryInterface;
+
+    /**
+     * Set Date Format
+     *
+     * @param string $dateFormat
+     *
+     * @return CountryInterface
+     */
+    public function setDateFormat(string $dateFormat): CountryInterface;
 
     /**
      * Set Default Currency

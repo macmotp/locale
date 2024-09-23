@@ -10,26 +10,29 @@ use Macmotp\Country;
 use Macmotp\Language;
 use Macmotp\Timezone;
 
-final class US extends AbstractCountry implements CountryInterface
+/**
+ * Anguilla
+ */
+final class AI extends AbstractCountry implements CountryInterface
 {
     public function __construct()
     {
         $this->setContinent(Continent::NORTH_AMERICA);
-        $this->setName('United States of America');
-        $this->setCapital('Washington');
-        $this->setCode(Country::US);
-        $this->setAlpha3Code('USA');
-        $this->setDialCode('+1');
-        $this->setTld('.us');
-        $this->setDateFormat('m-d-Y');
-        $this->setDefaultCurrency('USD');
-        $this->setDefaultTimezone(Timezone::AMERICA_NEW_YORK);
+        $this->setName('Anguilla');
+        $this->setCapital('The Valley');
+        $this->setCode(Country::AI);
+        $this->setAlpha3Code('AIA');
+        $this->setDialCode('+1264');
+        $this->setTld('.ai');
+        $this->setDateFormat('d-m-Y');
+        $this->setDefaultCurrency('XCD');
+        $this->setDefaultTimezone(Timezone::AMERICA_ANGUILLA);
         $this->setDefaultLanguage(Language::ENGLISH);
         $this->setCurrencies(new Collection([
-            'USD',
+            'XCD',
         ]));
         $this->setTimezones(new Collection([
-            Timezone::AMERICA_NEW_YORK,
+            Timezone::AMERICA_ANGUILLA,
         ]));
         $this->setLanguages(new Collection([
             Language::ENGLISH,
