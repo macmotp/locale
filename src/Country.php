@@ -7,6 +7,7 @@ namespace Macmotp;
 use Macmotp\Countries\Support\Collection;
 use Macmotp\Countries\Support\Context;
 use Macmotp\Countries\Support\CountryInterface;
+use Macmotp\Countries\Support\Translations\Translator;
 
 /**
  * Class Country
@@ -21,12 +22,24 @@ class Country
     public const IT = 'IT'; // Italy
     public const US = 'US'; // United States of America
 
+    public const ANDORRA = 'Andorra';
+    public const AFGHANISTAN = 'Afghanistan';
+    public const ANTIGUA_AND_BARBUDA = 'Antigua and Barbuda';
+    public const ANGUILLA = 'Anguilla';
+    public const ITALY = 'Italy';
+    public const UNITED_STATES_OF_AMERICA = 'United States of America';
+    public const UNITED_ARAB_EMIRATES = 'United Arab Emirates';
+
     private CountryInterface $country;
 
     /**
      * @param string $code
+     * @param string $locale
      */
-    public function __construct(private readonly string $code)
+    public function __construct(
+        private readonly string $code,
+        private readonly string $locale = Language::ENGLISH,
+    )
     {
         $this->country = Context::getFromCode($code);
     }
@@ -48,7 +61,7 @@ class Country
      */
     public function getContinent(): string
     {
-        return $this->country->getContinent();
+        return Translator::translate($this->country->getContinent(), $this->locale);
     }
 
     /**
@@ -58,7 +71,7 @@ class Country
      */
     public function getName(): string
     {
-        return $this->country->getName();
+        return Translator::translate($this->country->getName(), $this->locale);
     }
 
     /**

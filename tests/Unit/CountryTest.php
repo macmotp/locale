@@ -66,6 +66,17 @@ class CountryTest extends TestCase
     /**
      * @return void
      */
+    public function testSetLocaleFunction(): void
+    {
+        $country = new Country(Country::US, 'it');
+
+        $this->assertEquals('America del Nord', $country->getContinent());
+        $this->assertEquals('Stati Uniti d\'America', $country->getName());
+    }
+
+    /**
+     * @return void
+     */
     public function testGetCurrenciesFunction(): void
     {
         $country = new Country(Country::US);
@@ -149,7 +160,7 @@ class CountryTest extends TestCase
         return [
             [
                 Country::AD,
-                Continent::EUROPE,
+                'Europe',
                 'Andorra',
                 'Andorra la Vella',
                 'AD',
@@ -163,7 +174,7 @@ class CountryTest extends TestCase
             ],
             [
                 Country::US,
-                Continent::NORTH_AMERICA,
+                'North America',
                 'United States of America',
                 'Washington',
                 'US',
