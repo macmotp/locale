@@ -20,6 +20,8 @@ class Translator
     {
         $translation = match($locale) {
             Language::ITALIAN => new it(),
+            Language::HUNGARIAN => new hu(),
+
             default => new en(),
         };
 
