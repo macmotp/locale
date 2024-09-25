@@ -47,7 +47,8 @@ class CountryTest extends TestCase
         string $outputDefaultCurrency,
         string $outputDefaultTimezone,
         string $outputDefaultLanguage,
-    ): void {
+    ): void
+    {
         $country = new Country($countryCode);
 
         $this->assertEquals($outputContinent, $country->getContinent());
@@ -61,6 +62,41 @@ class CountryTest extends TestCase
         $this->assertEquals($outputDefaultCurrency, $country->getDefaultCurrency());
         $this->assertEquals($outputDefaultTimezone, $country->getDefaultTimezone());
         $this->assertEquals($outputDefaultLanguage, $country->getDefaultLanguage());
+    }
+
+    /**
+     * @return void
+     */
+    public function testMakeFunction(): void
+    {
+        $country = Country::make(Country::US);
+
+        $this->assertEquals('United States of America', $country->getName());
+    }
+
+    /**
+     * @return void
+     */
+    public function testToArrayFunction(): void
+    {
+        $country = new Country(Country::IT);
+
+        $this->assertEquals([
+            'continent' => 'Europe',
+            'name' => 'Italy',
+            'capital' => 'Rome',
+            'code' => 'IT',
+            'alpha3_code' => 'ITA',
+            'dial_code' => '+39',
+            'tld' => '.it',
+            'date_format' => 'd-m-Y',
+            'default_currency_code' => 'EUR',
+            'default_timezone' => 'Europe/Rome',
+            'default_language' => 'it',
+            'currencies' => ['EUR'],
+            'timezones' => ['Europe/Rome'],
+            'languages' => ['it'],
+        ], $country->toArray());
     }
 
     /**
@@ -94,7 +130,35 @@ class CountryTest extends TestCase
         $country = new Country(Country::US);
 
         $this->assertEquals([
+            Timezone::AMERICA_ADAK,
+            Timezone::AMERICA_ANCHORAGE,
+            Timezone::AMERICA_BOISE,
+            Timezone::AMERICA_CHICAGO,
+            Timezone::AMERICA_DENVER,
+            Timezone::AMERICA_DETROIT,
+            Timezone::AMERICA_INDIANA_INDIANAPOLIS,
+            Timezone::AMERICA_INDIANA_KNOX,
+            Timezone::AMERICA_INDIANA_MARENGO,
+            Timezone::AMERICA_INDIANA_PETERSBURG,
+            Timezone::AMERICA_INDIANA_TELL_CITY,
+            Timezone::AMERICA_INDIANA_VEVAY,
+            Timezone::AMERICA_INDIANA_VINCENNES,
+            Timezone::AMERICA_INDIANA_WINAMAC,
+            Timezone::AMERICA_JUNEAU,
+            Timezone::AMERICA_KENTUCKY_LOUISVILLE,
+            Timezone::AMERICA_KENTUCKY_MONTICELLO,
+            Timezone::AMERICA_LOS_ANGELES,
+            Timezone::AMERICA_MENOMINEE,
+            Timezone::AMERICA_METLAKATLA,
             Timezone::AMERICA_NEW_YORK,
+            Timezone::AMERICA_NOME,
+            Timezone::AMERICA_NORTH_DAKOTA_BEULAH,
+            Timezone::AMERICA_NORTH_DAKOTA_CENTER,
+            Timezone::AMERICA_NORTH_DAKOTA_NEW_SALEM,
+            Timezone::AMERICA_PHOENIX,
+            Timezone::AMERICA_SITKA,
+            Timezone::AMERICA_YAKUTAT,
+            Timezone::PACIFIC_HONOLULU,
         ], $country->getTimezones()->toArray());
     }
 
@@ -115,7 +179,7 @@ class CountryTest extends TestCase
      */
     public function testGetAllCountriesFunction(): void
     {
-        $this->assertCount(6, Country::all());
+        $this->assertCount(250, Country::all());
     }
 
     /**
@@ -123,7 +187,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesByCurrencyFunction(): void
     {
-        $this->assertCount(1, Country::all()->withCurrency(Currency::USD));
+        $this->assertCount(19, Country::all()->withCurrency(Currency::USD));
     }
 
     /**
@@ -131,7 +195,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesByLanguageFunction(): void
     {
-        $this->assertCount(3, Country::all()->speaking(Language::ENGLISH));
+        $this->assertCount(88, Country::all()->speaking(Language::ENGLISH));
     }
 
     /**
@@ -139,7 +203,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesByContinentFunction(): void
     {
-        $this->assertCount(1, Country::all()->ofContinent(Continent::EUROPE));
+        $this->assertCount(55, Country::all()->ofContinent(Continent::EUROPE));
     }
 
     /**
@@ -147,7 +211,7 @@ class CountryTest extends TestCase
      */
     public function testFilterCountriesChainedFunction(): void
     {
-        $this->assertCount(0, Country::all()->ofContinent(Continent::AFRICA)->speaking(Language::ENGLISH)->withCurrency('USD'));
+        $this->assertCount(2, Country::all()->ofContinent(Continent::EUROPE)->speaking(Language::ENGLISH)->withCurrency(Currency::EUR));
     }
 
     /**
@@ -176,7 +240,7 @@ class CountryTest extends TestCase
                 Country::US,
                 'North America',
                 'United States of America',
-                'Washington',
+                'Washington, D.C.',
                 'US',
                 'USA',
                 '+1',

@@ -7,7 +7,7 @@ namespace Macmotp;
 class Continent
 {
     public const AFRICA = 'AFRICA';
-    public const ANTARCTIC = 'ANTARCTIC';
+    public const ANTARCTICA = 'ANTARCTICA';
     public const ARCTIC = 'ARCTIC';
     public const ASIA = 'ASIA';
     public const EUROPE = 'EUROPE';

@@ -36,22 +36,30 @@ echo $country->toArray();
 // [
 //    'continent' => 'North America',
 //    'name' => 'United States of America',
+//    'capital' => 'Washington DC',
 //    'code' => 'US',
 //    'alpha3_code' => 'USA',
 //    'dial_code' => '+1',
-//    'default_currency_code' => Currency::USD,
+//    'tld' => '.us',
+//    'date_format' => 'm-d-Y',
+//    'default_currency_code' => 'USD',
 //    'default_timezone' => 'America/New_York',
 //    'default_language' => 'en',
+//    'currencies' => ['USD'],
+//    'timezones' => ['America/New_York', ...],
+//    'languages' => ['en', ...],
 // ]
 
 ```
 ### List of basic dynamic methods
 - `getContinent()`: it returns the continent;
 - `getName()`: it returns the name;
+- `getCapital()`: it returns the capital;
 - `getCode()`: it returns the country code (alpha2);
 - `getAlpha3Code()`: it returns the country code (alpha3);
-- `getAlpha3Code()`: it returns the country code (alpha3);
 - `getDialCode()`: it returns the dial code;
+- `getTld()`: it returns the internet tld;
+- `getDateFormat()`: it returns the date format;
 - `getDefaultCurrency()`: it returns the default currency;
 - `getDefaultTimezone()`: it returns the default timezone;
 - `getDefaultLanguage()`: it returns the default locale language;
@@ -104,16 +112,18 @@ use Macmotp\Country;
 use Macmotp\Language;
 
 echo Country::all()->withCurrency('USD');
-// [
+// (Collection) [
 //    [
 //       'continent' => 'North America',
 //       'name' => 'United States of America',
 //       'code' => 'US',
-//       'alpha3_code' => 'USA',
-//       'dial_code' => '+1',
-//       'default_currency_code' => Currency::USD,
-//       'default_timezone' => 'America/New_York',
-//       'default_language' => 'en_US',
+//       ...
+//    ],
+//    [
+//       'continent' => 'North America',
+//       'name' => 'El Salvador',
+//       'code' => 'ES',
+//       ...
 //    ],
 //    ...
 // ]
@@ -124,70 +134,36 @@ $list = Country::all()->speaking(Language::ENGLISH);
 
 __These methods can be chained, for example: `Country::all()->ofContinent(Continent::EUROPE)->speaking(Language::ENGLISH);`__
 
-#### Available Languages (in order of locale code)
-- Language::AFRIKAANS = 'af';
-- Language::AKAN = 'ak';
-- Language::AMHARIC = 'am';
+#### Supported Locales (in order of locale code)
 - Language::ARABIC = 'ar';
-- Language::ASSAMESE = 'as';
-- Language::ASU = 'asa';
-- Language::AZERBAIJANI = 'az';
-- Language::BELARUSIAN = 'be';
-- Language::BEMBA = 'bem';
-- Language::BENA = 'bez';
-- Language::BULGARIAN = 'bg';
-- Language::BAMBARA = 'bm';
-- Language::BENGALI = 'bn';
-- Language::BOSNIAN = 'bs';
-- Language::CATALAN = 'ca';
-- Language::CHEROKEE = 'chr';
-- Language::CHIGA = 'cgg';
-- Language::CZECH = 'cs';
-- Language::DANISH = 'da';
 - Language::GERMAN = 'de';
-- Language::EMBU = 'ebu';
-- Language::EWE = 'ee';
-- Language::GREEK = 'el';
 - Language::ENGLISH = 'en';
-- Language::ESPERANTO = 'eo';
 - Language::SPANISH = 'es';
-- Language::ESTONIAN = 'et';
-- Language::BASQUE = 'eu';
-- Language::FULAH = 'ff';
-- Language::FINNISH = 'fi';
-- Language::FILIPINO = 'fil';
-- Language::FAROESE = 'fo';
 - Language::FRENCH = 'fr';
-- Language::IRISH = 'ga';
-- Language::GALITIAN = 'gl';
-- Language::GUJARATI = 'gu';
-- Language::GUSII = 'guz';
-- Language::HAUSA = 'ha';
-- Language::HAWAIIAN = 'haw';
-- Language::HEBREW = 'he';
-- Language::HINDI = 'hi';
-- Language::CROATIAN = 'hr';
-- Language::HUNGARIAN = 'hu';
-- Language::ARMENIAN = 'hy';
-- Language::INDONESIAN = 'id';
-- Language::IGBO = 'ig';
-- Language::ICELANDIC = 'is';
 - Language::ITALIAN = 'it';
 - Language::JAPANESE = 'ja';
-- Language::GEORGIAN = 'ka';
-- Language::KABYLE= 'kab';
-- Language::KABUVERDIANU = 'kea';
-- Language::KALAALLISUT = 'kl';
-- Language::KALENJIN = 'kln';
-- Language::CORNISH = 'kw';
-- Language::GANDA = 'lg';
-- Language::BURMESE = 'my';
+- Language::KOREAN = 'ko';
 - Language::DUTCH = 'nl';
 - Language::PORTUGUESE = 'pt';
-- Language::ALBANIAN = 'sq';
-- Language::TAMAZIGHT = 'tzm';
-- Language::CANTONESE = 'yue';
 - Language::CHINESE = 'zh';
+
+## Localization
+In addition to the default functions, it's possible to localize the response:
+``` php
+use Macmotp\Country;
+
+// Create the object with locale
+$country = new Country(Country::US, Language::SPANISH);
+
+echo $country->toArray();
+
+// [
+//    'continent' => 'America del Nord',
+//    'name' => 'Stati Uniti',
+//    ...
+// ]
+
+```
 
 
 ## Testing
