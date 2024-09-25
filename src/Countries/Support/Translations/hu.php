@@ -96,7 +96,7 @@ class hu implements Translation
             Country::EQUATORIAL_GUINEA => 'Egyenlítői-Guinea',
             Country::ERITREA => 'Eritrea',
             Country::ESTONIA => 'Észtország',
-            Country::ESWATINI => 'Eswatini',
+            Country::ESWATINI => 'Szváziföld',
             Country::ETHIOPIA => 'Etiópia',
             Country::FALKLAND_ISLANDS => 'Falkland-szigetek',
             Country::FAROE_ISLANDS => 'Feröer-szigetek',
