@@ -25,7 +25,7 @@ final class HU extends AbstractCountry implements CountryInterface
         $this->setAlpha3Code('HUN');
         $this->setDialCode('+36');
         $this->setTld('.hu');
-        $this->setDateFormat('d-m-Y');
+        $this->setDateFormat('Y. m. d.');
         $this->setDefaultCurrency(Currency::HUF);
         $this->setDefaultTimezone(Timezone::EUROPE_BUDAPEST);
         $this->setDefaultLanguage(Language::HUNGARIAN);
