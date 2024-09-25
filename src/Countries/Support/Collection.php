@@ -17,7 +17,7 @@ final class Collection extends BaseCollection
      */
     public function withCurrency(string $currencyCode): self
     {
-        return $this->filter(fn(CountryInterface $country) => $country->getCurrencies()->contains($currencyCode));
+        return $this->filter(fn (CountryInterface $country) => $country->getCurrencies()->contains($currencyCode));
     }
 
     /**
@@ -28,7 +28,7 @@ final class Collection extends BaseCollection
      */
     public function ofContinent(string $continent): self
     {
-        return $this->filter(fn(CountryInterface $country) => $country->getContinent() === $continent);
+        return $this->filter(fn (CountryInterface $country) => $country->getContinent() === $continent);
     }
 
     /**
@@ -39,6 +39,6 @@ final class Collection extends BaseCollection
      */
     public function speaking(string $language): self
     {
-        return $this->filter(fn(CountryInterface $country) => $country->getLanguages()->contains($language));
+        return $this->filter(fn (CountryInterface $country) => $country->getLanguages()->contains($language));
     }
 }

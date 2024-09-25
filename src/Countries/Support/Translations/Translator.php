@@ -9,7 +9,6 @@ use Macmotp\Language;
  */
 class Translator
 {
-
     /**
      * Translate keys by locale
      *

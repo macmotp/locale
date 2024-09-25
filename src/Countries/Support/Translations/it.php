@@ -283,5 +283,3 @@ class it implements Translation
         };
     }
 }
-
-

@@ -529,8 +529,7 @@ class Country
     public function __construct(
         private readonly string $code,
         private readonly string $locale = Language::ENGLISH,
-    )
-    {
+    ) {
         $this->country = Context::getFromCode($code);
     }
 
@@ -545,8 +544,7 @@ class Country
     public static function make(
         string $code,
         string $locale = Language::ENGLISH,
-    ): self
-    {
+    ): self {
         return new self($code, $locale);
     }
 
