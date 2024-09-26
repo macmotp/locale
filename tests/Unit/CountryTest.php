@@ -216,7 +216,7 @@ class CountryTest extends TestCase
     /**
      * @return void
      */
-    public function testTranslatedCountryName(): void
+    public function testTranslatedCountryAttributes(): void
     {
         $country = new Country(Country::RO, Language::ROMANIAN);
 
