@@ -1,6 +1,6 @@
 <?php
 
-namespace Macmotp\Countries\Support\Translations;
+namespace Macmotp\Languages\Translations;
 
 /**
  * Translation interface

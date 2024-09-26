@@ -157,4 +157,135 @@ class Language
     public const BERBER = 'zgh';
     public const CHINESE = 'zh';
     public const ZULU = 'zu';
+
+    private string $name;
+    private string $englishName;
+    private string $flag;
+
+    /**
+     * @param string $code
+     */
+    public function __construct(
+        private readonly string $code,
+    )
+    {
+        $this->name = $this->mapName();
+        $this->englishName = $this->mapEnglishName();
+        $this->flag = $this->mapFlag();
+    }
+
+    /**
+     * @param string $code
+     * @return Language
+     */
+    public static function make(string $code): self
+    {
+        return new self($code);
+    }
+
+    /**
+     * Get Code
+     *
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * Get Name
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get English Name
+     *
+     * @return string
+     */
+    public function getEnglishName(): string
+    {
+        return $this->englishName;
+    }
+
+    /**
+     * Get Flag
+     *
+     * @return string
+     */
+    public function getFlag(): string
+    {
+        return $this->flag;
+    }
+
+    /**
+     * Map the name of the language
+     *
+     * @return string
+     */
+    private function mapName(): string
+    {
+        return match($this->code) {
+            'ar' => 'العربية',
+            'de' => 'Deutsche',
+            'es' => 'Español',
+            'fr' => 'Français',
+            'it' => 'Italiano',
+            'ja' => '日本語',
+            'ko' => '한국인',
+            'nl' => 'Nederlands',
+            'pt' => 'Portuguese',
+            'zh' => '普通话',
+            default => 'English',
+        };
+    }
+
+    /**
+     * Map the name of the language in English
+     *
+     * @return string
+     */
+    private function mapEnglishName(): string
+    {
+        return match($this->code) {
+            'ar' => 'Arabic',
+            'de' => 'German',
+            'es' => 'Spanish',
+            'fr' => 'French',
+            'it' => 'Italian',
+            'ja' => 'Japanese',
+            'ko' => 'Korean',
+            'nl' => 'Dutch',
+            'pt' => 'Portuguese',
+            'zh' => 'Chinese',
+            default => 'English',
+        };
+    }
+
+    /**
+     * Map the flag of the language
+     *
+     * @return string
+     */
+    private function mapFlag(): string
+    {
+        return match($this->code) {
+            'ar' => 'sa',
+            'de' => 'de',
+            'es' => 'es',
+            'fr' => 'fr',
+            'it' => 'it',
+            'ja' => 'jp',
+            'ko' => 'kr',
+            'nl' => 'nl',
+            'pt' => 'pt',
+            'zh' => 'cn',
+            default => 'gb',
+        };
+    }
 }

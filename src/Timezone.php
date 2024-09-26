@@ -425,4 +425,45 @@ class Timezone
     public const PACIFIC_WAKE = 'Pacific/Wake';
     public const PACIFIC_WALLIS = 'Pacific/Wallis';
     public const UTC = 'UTC';
+
+    private string $timezone;
+
+    /**
+     * @param string $code
+     */
+    public function __construct(
+        private readonly string $code,
+    )
+    {
+        $this->timezone = $this->code;
+    }
+
+    /**
+     * @param string $code
+     * @return Language
+     */
+    public static function make(string $code): self
+    {
+        return new self($code);
+    }
+
+    /**
+     * Get Code
+     *
+     * @return string
+     */
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * Get Timezone
+     *
+     * @return string
+     */
+    public function getTimezone(): string
+    {
+        return $this->timezone;
+    }
 }

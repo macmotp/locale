@@ -2,6 +2,11 @@
 
 namespace Macmotp\Countries\Support;
 
+use Macmotp\Currency;
+use Macmotp\Language;
+use Macmotp\Money;
+use Macmotp\Timezone;
+
 /**
  * AbstractCountry abstract class
  */
@@ -15,9 +20,9 @@ abstract class AbstractCountry implements CountryInterface
     private string $dialCode;
     private string $tld;
     private string $dateFormat;
-    private string $defaultCurrency;
-    private string $defaultTimezone;
-    private string $defaultLanguage;
+    private Currency $defaultCurrency;
+    private Timezone $defaultTimezone;
+    private Language $defaultLanguage;
     private Collection $currencies;
     private Collection $timezones;
     private Collection $languages;
@@ -105,9 +110,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Default Currency
      *
-     * @return string
+     * @return Currency
      */
-    public function getDefaultCurrency(): string
+    public function getDefaultCurrency(): Currency
     {
         return $this->defaultCurrency;
     }
@@ -115,9 +120,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Default Timezone
      *
-     * @return string
+     * @return Timezone
      */
-    public function getDefaultTimezone(): string
+    public function getDefaultTimezone(): Timezone
     {
         return $this->defaultTimezone;
     }
@@ -125,9 +130,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Default Language
      *
-     * @return string
+     * @return Language
      */
-    public function getDefaultLanguage(): string
+    public function getDefaultLanguage(): Language
     {
         return $this->defaultLanguage;
     }
@@ -281,7 +286,7 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setDefaultCurrency(string $defaultCurrency): CountryInterface
     {
-        $this->defaultCurrency = $defaultCurrency;
+        $this->defaultCurrency = Money::make(0, $defaultCurrency)->getCurrency();
 
         return $this;
     }
@@ -294,7 +299,7 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setDefaultTimezone(string $defaultTimezone): CountryInterface
     {
-        $this->defaultTimezone = $defaultTimezone;
+        $this->defaultTimezone = new Timezone($defaultTimezone);
 
         return $this;
     }
@@ -307,7 +312,7 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setDefaultLanguage(string $defaultLanguage): CountryInterface
     {
-        $this->defaultLanguage = $defaultLanguage;
+        $this->defaultLanguage = new Language($defaultLanguage);
 
         return $this;
     }
@@ -320,7 +325,11 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setCurrencies(Collection $currencies): CountryInterface
     {
-        $this->currencies = $currencies;
+        $collection = new Collection();
+        foreach ($currencies as $currencyCode) {
+            $collection->push(Money::make(0, $currencyCode)->getCurrency());
+        }
+        $this->currencies = $collection;
 
         return $this;
     }
@@ -333,7 +342,11 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setTimezones(Collection $timezones): CountryInterface
     {
-        $this->timezones = $timezones;
+        $collection = new Collection();
+        foreach ($timezones as $timezoneCode) {
+            $collection->push(Timezone::make($timezoneCode));
+        }
+        $this->timezones = $collection;
 
         return $this;
     }
@@ -346,7 +359,11 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setLanguages(Collection $languages): CountryInterface
     {
-        $this->languages = $languages;
+        $collection = new Collection();
+        foreach ($languages as $languageCode) {
+            $collection->push(Language::make($languageCode));
+        }
+        $this->languages = $collection;
 
         return $this;
     }

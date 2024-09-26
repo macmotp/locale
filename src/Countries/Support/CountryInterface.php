@@ -2,6 +2,10 @@
 
 namespace Macmotp\Countries\Support;
 
+use Macmotp\Currency;
+use Macmotp\Language;
+use Macmotp\Timezone;
+
 /**
  * CountryInterface interface
  */
@@ -66,23 +70,23 @@ interface CountryInterface
     /**
      * Get Default Currency
      *
-     * @return string
+     * @return Currency
      */
-    public function getDefaultCurrency(): string;
+    public function getDefaultCurrency(): Currency;
 
     /**
      * Get Default Timezone
      *
-     * @return string
+     * @return Timezone
      */
-    public function getDefaultTimezone(): string;
+    public function getDefaultTimezone(): Timezone;
 
     /**
      * Get Default Language
      *
-     * @return string
+     * @return Language
      */
-    public function getDefaultLanguage(): string;
+    public function getDefaultLanguage(): Language;
 
     /**
      * Get Currencies

@@ -1,7 +1,7 @@
 # A curated library to handle locale in PHP
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/macmotp/countries.svg)](https://packagist.org/packages/macmotp/countries)
-[![Total Downloads](https://img.shields.io/packagist/dt/macmotp/countries.svg)](https://packagist.org/packages/macmotp/countries)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/macmotp/locale.svg)](https://packagist.org/packages/macmotp/locale)
+[![Total Downloads](https://img.shields.io/packagist/dt/macmotp/locale.svg)](https://packagist.org/packages/macmotp/locale)
 
 **Simple and light PHP library that handles Countries, Languages, and Timezones**
 
@@ -36,13 +36,16 @@ echo $country->toArray();
 // [
 //    'continent' => 'North America',
 //    'name' => 'United States of America',
-//    'capital' => 'Washington DC',
+//    'capital' => 'Washington, D.C.',
 //    'code' => 'US',
 //    'alpha3_code' => 'USA',
 //    'dial_code' => '+1',
 //    'tld' => '.us',
 //    'date_format' => 'm-d-Y',
-//    'default_currency_code' => 'USD',
+//    'default_currency_code' => [
+//        'code' => 'USD',
+//        'name' => 'United States Dollar',
+//    ],
 //    'default_timezone' => 'America/New_York',
 //    'default_language' => 'en',
 //    'currencies' => ['USD'],
@@ -134,19 +137,6 @@ $list = Country::all()->speaking(Language::ENGLISH);
 
 __These methods can be chained, for example: `Country::all()->ofContinent(Continent::EUROPE)->speaking(Language::ENGLISH);`__
 
-#### Supported Locales (in order of locale code)
-- Language::ARABIC = 'ar';
-- Language::GERMAN = 'de';
-- Language::ENGLISH = 'en';
-- Language::SPANISH = 'es';
-- Language::FRENCH = 'fr';
-- Language::ITALIAN = 'it';
-- Language::JAPANESE = 'ja';
-- Language::KOREAN = 'ko';
-- Language::DUTCH = 'nl';
-- Language::PORTUGUESE = 'pt';
-- Language::CHINESE = 'zh';
-
 ## Localization
 In addition to the default functions, it's possible to localize the response:
 ``` php
@@ -164,6 +154,19 @@ echo $country->toArray();
 // ]
 
 ```
+
+#### Supported Locales (in order of locale code)
+- `Language::ARABIC = 'ar'`;
+- `Language::GERMAN = 'de'`;
+- `Language::ENGLISH = 'en'`;
+- `Language::SPANISH = 'es'`;
+- `Language::FRENCH = 'fr'`;
+- `Language::ITALIAN = 'it'`;
+- `Language::JAPANESE = 'ja'`;
+- `Language::KOREAN = 'ko'`;
+- `Language::DUTCH = 'nl'`;
+- `Language::PORTUGUESE = 'pt'`;
+- `Language::CHINESE = 'zh'`;
 
 
 ## Testing

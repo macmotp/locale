@@ -59,9 +59,9 @@ class CountryTest extends TestCase
         $this->assertEquals($outputDialCode, $country->getDialCode());
         $this->assertEquals($outputTld, $country->getTld());
         $this->assertEquals($outputDateFormat, $country->getDateFormat());
-        $this->assertEquals($outputDefaultCurrency, $country->getDefaultCurrency());
-        $this->assertEquals($outputDefaultTimezone, $country->getDefaultTimezone());
-        $this->assertEquals($outputDefaultLanguage, $country->getDefaultLanguage());
+        $this->assertEquals($outputDefaultCurrency, $country->getDefaultCurrency()->getCode());
+        $this->assertEquals($outputDefaultTimezone, $country->getDefaultTimezone()->getCode());
+        $this->assertEquals($outputDefaultLanguage, $country->getDefaultLanguage()->getCode());
     }
 
     /**
@@ -90,12 +90,40 @@ class CountryTest extends TestCase
             'dial_code' => '+39',
             'tld' => '.it',
             'date_format' => 'd-m-Y',
-            'default_currency_code' => 'EUR',
-            'default_timezone' => 'Europe/Rome',
-            'default_language' => 'it',
-            'currencies' => ['EUR'],
-            'timezones' => ['Europe/Rome'],
-            'languages' => ['it'],
+            'default_currency' => [
+                'code' => 'EUR',
+                'name' => 'Euro',
+            ],
+            'default_timezone' => [
+                'code' => 'Europe/Rome',
+                'timezone' => 'Europe/Rome',
+            ],
+            'default_language' => [
+                'code' => 'it',
+                'name' => 'Italiano',
+                'flag' => 'it',
+                'en_name' => 'Italian',
+            ],
+            'currencies' => [
+                [
+                    'code' => 'EUR',
+                    'name' => 'Euro',
+                ],
+            ],
+            'timezones' => [
+                [
+                    'code' => 'Europe/Rome',
+                    'timezone' => 'Europe/Rome',
+                ],
+            ],
+            'languages' => [
+                [
+                    'code' => 'it',
+                    'name' => 'Italiano',
+                    'flag' => 'it',
+                    'en_name' => 'Italian',
+                ],
+            ],
         ], $country->toArray());
     }
 
@@ -104,10 +132,11 @@ class CountryTest extends TestCase
      */
     public function testSetLocaleFunction(): void
     {
-        $country = new Country(Country::US, 'it');
+        $country = new Country(Country::IT, 'it');
 
-        $this->assertEquals('America del Nord', $country->getContinent());
-        $this->assertEquals('Stati Uniti d\'America', $country->getName());
+        $this->assertEquals('Europa', $country->getContinent());
+        $this->assertEquals('Italia', $country->getName());
+        $this->assertEquals('Roma', $country->getCapital());
     }
 
     /**
@@ -116,9 +145,12 @@ class CountryTest extends TestCase
     public function testGetCurrenciesFunction(): void
     {
         $country = new Country(Country::US);
+        var_dump($country->getCurrencies()->toArray());
 
         $this->assertEquals([
-            Currency::USD,
+            [
+                'code' => 'USD',
+            ],
         ], $country->getCurrencies()->toArray());
     }
 

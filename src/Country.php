@@ -7,7 +7,7 @@ namespace Macmotp;
 use Macmotp\Countries\Support\Collection;
 use Macmotp\Countries\Support\Context;
 use Macmotp\Countries\Support\CountryInterface;
-use Macmotp\Countries\Support\Translations\Translator;
+use Macmotp\Languages\Support\Translator;
 
 /**
  * Class Country
@@ -587,7 +587,7 @@ class Country
      */
     public function getCapital(): string
     {
-        return $this->country->getCapital();
+        return Translator::translate($this->country->getCapital(), $this->locale);
     }
 
     /**
@@ -643,9 +643,9 @@ class Country
     /**
      * Get Default Currency
      *
-     * @return string
+     * @return Currency
      */
-    public function getDefaultCurrency(): string
+    public function getDefaultCurrency(): Currency
     {
         return $this->country->getDefaultCurrency();
     }
@@ -653,9 +653,9 @@ class Country
     /**
      * Get Default Timezone
      *
-     * @return string
+     * @return Timezone
      */
-    public function getDefaultTimezone(): string
+    public function getDefaultTimezone(): Timezone
     {
         return $this->country->getDefaultTimezone();
     }
@@ -663,9 +663,9 @@ class Country
     /**
      * Get Default Language
      *
-     * @return string
+     * @return Language
      */
-    public function getDefaultLanguage(): string
+    public function getDefaultLanguage(): Language
     {
         return $this->country->getDefaultLanguage();
     }
@@ -716,12 +716,40 @@ class Country
             'dial_code' => $this->getDialCode(),
             'tld' => $this->getTld(),
             'date_format' => $this->getDateFormat(),
-            'default_currency_code' => $this->getDefaultCurrency(),
-            'default_timezone' => $this->getDefaultTimezone(),
-            'default_language' => $this->getDefaultLanguage(),
-            'currencies' => $this->getCurrencies()->toArray(),
-            'timezones' => $this->getTimezones()->toArray(),
-            'languages' => $this->getLanguages()->toArray(),
+            'default_currency' => [
+                'code' => $this->getDefaultCurrency()->getCode(),
+                'name' => $this->getDefaultCurrency()->getName(),
+            ],
+            'default_timezone' => [
+                'code' => $this->getDefaultTimezone()->getCode(),
+                'timezone' => $this->getDefaultTimezone()->getTimezone(),
+            ],
+            'default_language' => [
+                'code' => $this->getDefaultLanguage()->getCode(),
+                'name' => $this->getDefaultLanguage()->getName(),
+                'flag' => $this->getDefaultLanguage()->getFlag(),
+                'en_name' => $this->getDefaultLanguage()->getEnglishName(),
+            ],
+            'currencies' => $this->getCurrencies()->map(function (Currency $currency) {
+                return [
+                    'code' => $currency->getCode(),
+                    'name' => $currency->getName(),
+                ];
+            })->toArray(),
+            'timezones' => $this->getTimezones()->map(function (Timezone $timezone) {
+                return [
+                    'code' => $timezone->getCode(),
+                    'timezone' => $timezone->getTimezone(),
+                ];
+            })->toArray(),
+            'languages' => $this->getLanguages()->map(function (Language $language) {
+                return [
+                    'code' => $language->getCode(),
+                    'name' => $language->getName(),
+                    'flag' => $language->getFlag(),
+                    'en_name' => $this->getDefaultLanguage()->getEnglishName(),
+                ];
+            })->toArray(),
         ];
     }
 }
