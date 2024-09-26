@@ -47,8 +47,7 @@ class CountryTest extends TestCase
         string $outputDefaultCurrency,
         string $outputDefaultTimezone,
         string $outputDefaultLanguage,
-    ): void
-    {
+    ): void {
         $country = new Country($countryCode);
 
         $this->assertEquals($outputContinent, $country->getContinent());
@@ -202,7 +201,7 @@ class CountryTest extends TestCase
         $country = new Country(Country::US);
 
         $this->assertEquals([
-            Language::ENGLISH
+            Language::ENGLISH,
         ], $country->getLanguages()->toArray());
     }
 
@@ -266,7 +265,7 @@ class CountryTest extends TestCase
                 'd-m-Y',
                 Currency::EUR,
                 Timezone::EUROPE_ANDORRA,
-                Language::CATALAN
+                Language::CATALAN,
             ],
             [
                 Country::US,
@@ -280,7 +279,7 @@ class CountryTest extends TestCase
                 'm-d-Y',
                 Currency::USD,
                 Timezone::AMERICA_NEW_YORK,
-                Language::ENGLISH
+                Language::ENGLISH,
             ],
         ];
     }

@@ -20,7 +20,6 @@ use Macmotp\Languages\Translations\zh;
  */
 class Translator
 {
-
     /**
      * Translate keys by locale
      *

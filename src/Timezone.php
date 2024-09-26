@@ -433,8 +433,7 @@ class Timezone
      */
     public function __construct(
         private readonly string $code,
-    )
-    {
+    ) {
         $this->timezone = $this->code;
     }
 

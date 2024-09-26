@@ -532,5 +532,3 @@ class it implements Translation
         };
     }
 }
-
-

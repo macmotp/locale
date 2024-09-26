@@ -167,8 +167,7 @@ class Language
      */
     public function __construct(
         private readonly string $code,
-    )
-    {
+    ) {
         $this->name = $this->mapName();
         $this->englishName = $this->mapEnglishName();
         $this->flag = $this->mapFlag();
