@@ -214,6 +214,17 @@ class CountryTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testTranslatedCountryName(): void
+    {
+        $country = new Country(Country::RO, Language::ROMANIAN);
+
+        $this->assertEquals('România', $country->getName());
+        $this->assertEquals('Europa', $country->getContinent());
+    }
+
+    /**
      * List of different constructors
      *
      * @return array[]

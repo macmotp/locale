@@ -187,6 +187,7 @@ Please review [our security policy](.github/security.md) on how to report securi
 ## Credits
 
 - [Marco Gava](https://github.com/macmotp)
+- [Mihai Tuhari](https://github.com/mihaituhari)
 
 ## License
 
