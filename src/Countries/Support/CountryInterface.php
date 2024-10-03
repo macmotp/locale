@@ -2,9 +2,15 @@
 
 namespace Macmotp\Countries\Support;
 
+use Macmotp\Continent;
+use Macmotp\Continents\Support\ContinentCode;
+use Macmotp\Continents\Support\ContinentInterface;
+use Macmotp\Currencies\Support\CurrencyCode;
 use Macmotp\Currency;
 use Macmotp\Language;
+use Macmotp\Languages\Support\LanguageCode;
 use Macmotp\Timezone;
+use Macmotp\Timezones\Support\TimezoneCode;
 
 /**
  * CountryInterface interface
@@ -14,30 +20,30 @@ interface CountryInterface
     /**
      * Get Continent
      *
-     * @return string
+     * @return ContinentInterface
      */
-    public function getContinent(): string;
+    public function getContinent(): ContinentInterface;
 
     /**
      * Get Name
      *
-     * @return string
+     * @return CountryName
      */
-    public function getName(): string;
+    public function getName(): CountryName;
 
     /**
      * Get Capital
      *
-     * @return string
+     * @return CountryCapital
      */
-    public function getCapital(): string;
+    public function getCapital(): CountryCapital;
 
     /**
      * Get Code
      *
-     * @return string
+     * @return CountryCode
      */
-    public function getCode(): string;
+    public function getCode(): CountryCode;
 
     /**
      * Get Alpha3 Code
@@ -66,6 +72,13 @@ interface CountryInterface
      * @return string
      */
     public function getDateFormat(): string;
+
+    /**
+     * Get Date Format
+     *
+     * @return CountryFlag
+     */
+    public function getFlag(): CountryFlag;
 
     /**
      * Get Default Currency
@@ -112,34 +125,34 @@ interface CountryInterface
     /**
      * Set Continent
      *
-     * @param string $continent
+     * @param ContinentCode $continent
      * @return CountryInterface
      */
-    public function setContinent(string $continent): CountryInterface;
+    public function setContinent(ContinentCode $continent): CountryInterface;
 
     /**
      * Set Name
      *
-     * @param string $name
+     * @param CountryName $name
      * @return CountryInterface
      */
-    public function setName(string $name): CountryInterface;
+    public function setName(CountryName $name): CountryInterface;
 
     /**
      * Set Capital
      *
-     * @param string $capital
+     * @param CountryCapital $capital
      * @return CountryInterface
      */
-    public function setCapital(string $capital): CountryInterface;
+    public function setCapital(CountryCapital $capital): CountryInterface;
 
     /**
      * Set Code
      *
-     * @param string $code
+     * @param CountryCode $code
      * @return CountryInterface
      */
-    public function setCode(string $code): CountryInterface;
+    public function setCode(CountryCode $code): CountryInterface;
 
     /**
      * Set Alpha3 Code
@@ -176,28 +189,37 @@ interface CountryInterface
     public function setDateFormat(string $dateFormat): CountryInterface;
 
     /**
-     * Set Default Currency
+     * Set Flag
      *
-     * @param string $defaultCurrency
+     * @param CountryFlag $flag
+     *
      * @return CountryInterface
      */
-    public function setDefaultCurrency(string $defaultCurrency): CountryInterface;
+    public function setFlag(CountryFlag $flag): CountryInterface;
+
+    /**
+     * Set Default Currency
+     *
+     * @param CurrencyCode $defaultCurrency
+     * @return CountryInterface
+     */
+    public function setDefaultCurrency(CurrencyCode $defaultCurrency): CountryInterface;
 
     /**
      * Set Default Timezone
      *
-     * @param string $defaultTimezone
+     * @param TimezoneCode $defaultTimezone
      * @return CountryInterface
      */
-    public function setDefaultTimezone(string $defaultTimezone): CountryInterface;
+    public function setDefaultTimezone(TimezoneCode $defaultTimezone): CountryInterface;
 
     /**
      * Set Default Language
      *
-     * @param string $defaultLanguage
+     * @param LanguageCode $defaultLanguage
      * @return CountryInterface
      */
-    public function setDefaultLanguage(string $defaultLanguage): CountryInterface;
+    public function setDefaultLanguage(LanguageCode $defaultLanguage): CountryInterface;
 
     /**
      * Set Currencies

@@ -6,8 +6,11 @@ All notable changes to `macmotp/locale` will be documented in this file
 
 - initial release
 
-## v0.1.1 - 2024-09-20
+## v1.0.0 - 2024-09-29
 
-- added currencies and languages as objects
-- added flag property
-- added translations of capitals
+- changed dependency to macmotp/currencies;
+- changed from constants to enums;
+- added currencies, languages and timezones as objects;
+- added flag property;
+- added translations of capitals;
+- added support for Hungarian (thanks @tamasori) and Romanian (thanks @mihaituhari) languages;
