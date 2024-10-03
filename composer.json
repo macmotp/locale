@@ -1,6 +1,6 @@
 {
     "name": "macmotp/locale",
-    "version": "v0.1.0",
+    "version": "v1.0.0",
     "description": "A curated library to handle locale in PHP",
     "keywords": [
         "macmotp",
@@ -24,7 +24,7 @@
     "require": {
         "php": ">=8.2",
         "illuminate/collections": ">=10.0",
-        "macmotp/money": "^0.4.1"
+        "macmotp/currencies": "^0.1.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.21",
@@ -37,7 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Macmotp\\Country\\Tests\\": "tests"
+            "Macmotp\\Locale\\Tests\\": "tests"
         }
     },
     "scripts": {

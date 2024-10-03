@@ -1,9 +1,9 @@
 # A curated library to handle locale in PHP
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/macmotp/countries.svg)](https://packagist.org/packages/macmotp/countries)
-[![Total Downloads](https://img.shields.io/packagist/dt/macmotp/countries.svg)](https://packagist.org/packages/macmotp/countries)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/macmotp/locale.svg)](https://packagist.org/packages/macmotp/locale)
+[![Total Downloads](https://img.shields.io/packagist/dt/macmotp/locale.svg)](https://packagist.org/packages/macmotp/locale)
 
-**Simple and light PHP library that handles Countries, Languages, and Timezones**
+**Simple and light PHP library that handles Countries, Currencies, Languages, and Timezones**
 
 Useful for any application that needs localization.
 
@@ -23,56 +23,79 @@ composer require macmotp/locale
 ### Create Country objects
 ``` php
 use Macmotp\Country;
+use Macmotp\Countries\Support\CountryCode;
 
 // Create the object
-$countryCode = Country::US; // Use alpha2 ISO code
+$countryCode = CountryCode::US; // Use alpha2 ISO code
 $country = new Country($countryCode);
 
-// equivalent to: 
-// $country = Country::make($countryCode);
+// Alternative methods: 
+$country = new Country('US');
+$country = Country::make($countryCode);
 
 echo $country->toArray();
 
 // [
 //    'continent' => 'North America',
 //    'name' => 'United States of America',
-//    'capital' => 'Washington DC',
+//    'capital' => 'Washington, D.C.',
 //    'code' => 'US',
 //    'alpha3_code' => 'USA',
 //    'dial_code' => '+1',
 //    'tld' => '.us',
 //    'date_format' => 'm-d-Y',
-//    'default_currency_code' => 'USD',
-//    'default_timezone' => 'America/New_York',
-//    'default_language' => 'en',
-//    'currencies' => ['USD'],
-//    'timezones' => ['America/New_York', ...],
-//    'languages' => ['en', ...],
+//    'flag' => 'us',
+//    'default_currency' => [
+//       'name' => 'United States Dollar',
+//       'code' => 'USD',
+//       'symbol' => '$',
+//       'flag' => 'us',
+//       'format' => [
+//          ...
+//       ],
+//    ],
+//    'default_timezone' => [
+//       'name' => 'America/New_York',
+//       'code' => 'America/New_York',
+//    ],
+//    'default_language' => [
+//       'name' => 'English',
+//       'code' => 'en',
+//       'english_name' => 'English',
+//       'flag' => 'gb',
+//    ],
+//    'currencies' => [...],
+//    'timezones' => [...],
+//    'languages' => [...],
 // ]
 
 ```
 ### List of basic dynamic methods
-- `getContinent()`: it returns the continent;
-- `getName()`: it returns the name;
-- `getCapital()`: it returns the capital;
-- `getCode()`: it returns the country code (alpha2);
-- `getAlpha3Code()`: it returns the country code (alpha3);
-- `getDialCode()`: it returns the dial code;
-- `getTld()`: it returns the internet tld;
-- `getDateFormat()`: it returns the date format;
-- `getDefaultCurrency()`: it returns the default currency;
-- `getDefaultTimezone()`: it returns the default timezone;
-- `getDefaultLanguage()`: it returns the default locale language;
+- `getContinent()`: it returns the continent (string);
+- `getName()`: it returns the name (string);
+- `getCapital()`: it returns the capital (string);
+- `getCode()`: it returns the country code (alpha2) (string);
+- `getAlpha3Code()`: it returns the country code (alpha3) (string);
+- `getDialCode()`: it returns the dial code (string);
+- `getTld()`: it returns the internet tld (string);
+- `getDateFormat()`: it returns the date format (string);
+- `getFlag()`: it returns the flag code (string);
+- `getDefaultCurrency()`: it returns the default currency (object `Macmotp\Currency`);
+- `getDefaultTimezone()`: it returns the default timezone (object `Macmotp\Timezone`);
+- `getDefaultLanguage()`: it returns the default locale language (object `Macmotp\Language`);
 - `toArray()`: it returns the object into array;
 
 ``` php
 // Example
 use Macmotp\Country;
 
-$country = new Country(Country::US);
+$country = new Country('US');
 
-echo $country->getDefaultCurrency();
-// (string) USD
+echo $country->getDefaultCurrency()->getCode();
+// (string) 'USD'
+
+echo $country->getFlag();
+// (string) 'us'
 
 ```
 
@@ -84,11 +107,26 @@ echo $country->getDefaultCurrency();
 ``` php
 // Example
 use Macmotp\Country;
+use Macmotp\Countries\Support\CountryCode;
 
-$country = new Country(Country::US);
+$country = new Country(CountryCode::AU);
 
-echo $country->getDefaultCurrency();
-// (string) USD
+echo $country->getTimezones();
+// (Collection)
+// [
+//    ['code' => 'Antarctica/Macquarie', 'name' => 'Antarctica/Macquarie'],
+//    ['code' => 'Australia/Adelaide', 'name' => 'Australia/Adelaide'],
+//    ['code' => 'Australia/Brisbane', 'name' => 'Australia/Brisbane'],
+//    ['code' => 'Australia/Broken_Hill', 'name' => 'Australia/Broken_Hill'],
+//    ['code' => 'Australia/Darwin', 'name' => 'Australia/Darwin'],
+//    ['code' => 'Australia/Eucla', 'name' => 'Australia/Eucla'],
+//    ['code' => 'Australia/Hobart', 'name' => 'Australia/Hobart'],
+//    ['code' => 'Australia/Lindeman', 'name' => 'Australia/Lindeman'],
+//    ['code' => 'Australia/Lord_Howe', 'name' => 'Australia/Lord_Howe'],
+//    ['code' => 'Australia/Melbourne', 'name' => 'Australia/Melbourne'],
+//    ['code' => 'Australia/Perth', 'name' => 'Australia/Perth'],
+//    ['code' => 'Australia/Sydney', 'name' => 'Australia/Sydney'],
+//  ]
 
 ```
 
@@ -101,8 +139,8 @@ $list = Country::all();
 ```
 
 ### Filter Countries by property
-- `withCurrency($currencyCode)`: it returns a Collection with all the currencies adopted in that country;
-- `speaking($language)`: it returns a Collection with all the countries speaking a specific language;
+- `usingCurrency($currencyCode)`: it returns a Collection with all the currencies adopted in that country;
+- `usingLanguage($language)`: it returns a Collection with all the countries speaking a specific language;
 - `ofContinent($continent)`: it returns a Collection with all the countries that belong to a continent;
 
 ``` php
@@ -111,7 +149,7 @@ use Macmotp\Continent;
 use Macmotp\Country;
 use Macmotp\Language;
 
-echo Country::all()->withCurrency('USD');
+echo Country::all()->usingCurrency('USD');
 // (Collection) [
 //    [
 //       'continent' => 'North America',
@@ -128,42 +166,66 @@ echo Country::all()->withCurrency('USD');
 //    ...
 // ]
 
-$list = Country::all()->speaking(Language::ENGLISH);
-// it returns a Collection with a list of all countries using english language
+$list = Country::all()->usingLanguage(Language::ENGLISH);
+// (Collection) [
+//    [
+//       'continent' => 'North America',
+//       'name' => 'United States of America',
+//       'code' => 'US',
+//       ...
+//    ],
+//    [
+//       'continent' => 'Europe',
+//       'name' => 'United Kingdom',
+//       'code' => 'GB',
+//       ...
+//    ],
+//    ...
+// ]
 ```
 
-__These methods can be chained, for example: `Country::all()->ofContinent(Continent::EUROPE)->speaking(Language::ENGLISH);`__
-
-#### Supported Locales (in order of locale code)
-- Language::ARABIC = 'ar';
-- Language::GERMAN = 'de';
-- Language::ENGLISH = 'en';
-- Language::SPANISH = 'es';
-- Language::FRENCH = 'fr';
-- Language::ITALIAN = 'it';
-- Language::JAPANESE = 'ja';
-- Language::KOREAN = 'ko';
-- Language::DUTCH = 'nl';
-- Language::PORTUGUESE = 'pt';
-- Language::CHINESE = 'zh';
+__These methods can be chained, for example: `Country::all()->ofContinent(Continent::EUROPE)->usingLanguage(Language::ENGLISH);`__
 
 ## Localization
-In addition to the default functions, it's possible to localize the response:
+In addition to the default functions, it's possible to localize the response. By default, English is used as primary locale.
 ``` php
 use Macmotp\Country;
+use Macmotp\Countries\Support\CountryCode;
+use Macmotp\Languages\Support\Locale;
 
 // Create the object with locale
-$country = new Country(Country::US, Language::SPANISH);
+$country = new Country(CountryCode::US);
 
-echo $country->toArray();
+echo $country->setLocale(Locale::JAPANESE)->toArray();
 
 // [
-//    'continent' => 'America del Nord',
-//    'name' => 'Stati Uniti',
+//    'continent' => '北アメリカ',
+//    'name' => 'アメリカ合衆国',
+//    'capital' => 'ワシントンD.C.',
 //    ...
 // ]
 
 ```
+
+#### Supported Locales
+- `Locale::ARABIC = 'ar'`;
+- `Locale::GERMAN = 'de'`;
+- `Locale::ENGLISH = 'en'`;
+- `Locale::SPANISH = 'es'`;
+- `Locale::FRENCH = 'fr'`;
+- `Locale::HUNGARIAN = 'hu'`;
+- `Locale::ITALIAN = 'it'`;
+- `Locale::JAPANESE = 'ja'`;
+- `Locale::KOREAN = 'ko'`;
+- `Locale::DUTCH = 'nl'`;
+- `Locale::PORTUGUESE = 'pt'`;
+- `Locale::ROMANIAN = 'ro'`;
+- `Locale::RUSSIAN = 'ru'`;
+- `Locale::CHINESE = 'zh'`;
+
+### Flags
+In addition to the source code, you can find a set of SVG flags [here](./src/Assets/Flags).
+These icons are tight to the `getFlag()` method, and they are associated also with Currencies and Languages.
 
 
 ## Testing

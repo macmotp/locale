@@ -1,26 +1,34 @@
 <?php
 
-namespace Macmotp\Country\Tests\Unit;
+namespace Macmotp\Locale\Tests\Unit;
 
-use Macmotp\Continent;
+use Macmotp\Continents\Exceptions\InvalidContinentCodeException;
+use Macmotp\Continents\Support\ContinentCode;
+use Macmotp\Countries\Exceptions\InvalidCountryCodeException;
+use Macmotp\Countries\Support\CountryCode;
+use Macmotp\Countries\Support\CountryInterface;
 use Macmotp\Country;
-use Macmotp\Currency;
-use Macmotp\Language;
-use Macmotp\Timezone;
+use Macmotp\Currencies\Exceptions\InvalidCurrencyCodeException;
+use Macmotp\Currencies\Support\CurrencyCode;
+use Macmotp\Languages\Exceptions\InvalidLanguageCodeException;
+use Macmotp\Languages\Support\LanguageCode;
+use Macmotp\Locales\Exceptions\InvalidLocaleCodeException;
+use Macmotp\Locales\Support\LocaleCode;
+use Macmotp\Timezones\Support\TimezoneCode;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class CountryTest
  *
- * @package Macmotp\Country\Tests\Unit
- * @group Country
+ * @package Macmotp\Locale\Tests\Unit
+ * @group Locale
  */
 class CountryTest extends TestCase
 {
     /**
      * @dataProvider listConstructors
      *
-     * @param string $countryCode
+     * @param CountryCode $countryCode
      * @param string $outputContinent
      * @param string $outputName
      * @param string $outputCapital
@@ -29,24 +37,28 @@ class CountryTest extends TestCase
      * @param string $outputDialCode
      * @param string $outputTld
      * @param string $outputDateFormat
+     * @param string $outputFlag
      * @param string $outputDefaultCurrency
      * @param string $outputDefaultTimezone
      * @param string $outputDefaultLanguage
      * @return void
+     * @throws InvalidCountryCodeException
+     * @throws InvalidLocaleCodeException
      */
     public function testCountryConstructor(
-        string $countryCode,
-        string $outputContinent,
-        string $outputName,
-        string $outputCapital,
-        string $outputCode,
-        string $outputAlpha3Code,
-        string $outputDialCode,
-        string $outputTld,
-        string $outputDateFormat,
-        string $outputDefaultCurrency,
-        string $outputDefaultTimezone,
-        string $outputDefaultLanguage,
+        CountryCode $countryCode,
+        string      $outputContinent,
+        string      $outputName,
+        string      $outputCapital,
+        string      $outputCode,
+        string      $outputAlpha3Code,
+        string      $outputDialCode,
+        string      $outputTld,
+        string      $outputDateFormat,
+        string      $outputFlag,
+        string      $outputDefaultCurrency,
+        string      $outputDefaultTimezone,
+        string      $outputDefaultLanguage,
     ): void {
         $country = new Country($countryCode);
 
@@ -58,17 +70,20 @@ class CountryTest extends TestCase
         $this->assertEquals($outputDialCode, $country->getDialCode());
         $this->assertEquals($outputTld, $country->getTld());
         $this->assertEquals($outputDateFormat, $country->getDateFormat());
-        $this->assertEquals($outputDefaultCurrency, $country->getDefaultCurrency());
-        $this->assertEquals($outputDefaultTimezone, $country->getDefaultTimezone());
-        $this->assertEquals($outputDefaultLanguage, $country->getDefaultLanguage());
+        $this->assertEquals($outputFlag, $country->getFlag());
+        $this->assertEquals($outputDefaultCurrency, $country->getDefaultCurrency()->getCode());
+        $this->assertEquals($outputDefaultTimezone, $country->getDefaultTimezone()->getCode());
+        $this->assertEquals($outputDefaultLanguage, $country->getDefaultLanguage()->getCode());
     }
 
     /**
      * @return void
+     * @throws InvalidCountryCodeException
+     * @throws InvalidLocaleCodeException
      */
     public function testMakeFunction(): void
     {
-        $country = Country::make(Country::US);
+        $country = Country::make(CountryCode::US);
 
         $this->assertEquals('United States of America', $country->getName());
     }
@@ -78,7 +93,7 @@ class CountryTest extends TestCase
      */
     public function testToArrayFunction(): void
     {
-        $country = new Country(Country::IT);
+        $country = new Country(CountryCode::IT);
 
         $this->assertEquals([
             'continent' => 'Europe',
@@ -89,92 +104,83 @@ class CountryTest extends TestCase
             'dial_code' => '+39',
             'tld' => '.it',
             'date_format' => 'd-m-Y',
-            'default_currency_code' => 'EUR',
-            'default_timezone' => 'Europe/Rome',
-            'default_language' => 'it',
-            'currencies' => ['EUR'],
-            'timezones' => ['Europe/Rome'],
-            'languages' => ['it'],
+            'flag' => 'it',
+            'default_currency' => [
+                'code' => 'EUR',
+                'name' => 'Euro',
+                'symbol' => '€',
+                'flag' => 'eu',
+                'format' => [
+                    'show_symbol' => true,
+                    'show_code' => false,
+                    'show_space' => false,
+                    'show_symbol_or_code_on_left' => true,
+                    'show_decimals' => true,
+                    'decimal_separator' => ',',
+                    'thousands_separator' => ' ',
+                    'subunit_level' => 2,
+                    'number_of_decimals' => 2,
+                ],
+            ],
+            'default_timezone' => [
+                'code' => 'Europe/Rome',
+                'name' => 'Europe/Rome',
+            ],
+            'default_language' => [
+                'code' => 'it',
+                'name' => 'Italian',
+            ],
+            'currencies' => [
+                [
+                    'code' => 'EUR',
+                    'name' => 'Euro',
+                    'symbol' => '€',
+                    'flag' => 'eu',
+                    'format' => [
+                        'show_symbol' => true,
+                        'show_code' => false,
+                        'show_space' => false,
+                        'show_symbol_or_code_on_left' => true,
+                        'show_decimals' => true,
+                        'decimal_separator' => ',',
+                        'thousands_separator' => ' ',
+                        'subunit_level' => 2,
+                        'number_of_decimals' => 2,
+                    ],
+                ],
+            ],
+            'timezones' => [
+                [
+                    'code' => 'Europe/Rome',
+                    'name' => 'Europe/Rome',
+                ],
+            ],
+            'languages' => [
+                [
+                    'code' => 'it',
+                    'name' => 'Italian',
+                ],
+            ],
         ], $country->toArray());
     }
 
     /**
      * @return void
+     * @throws InvalidLocaleCodeException
      */
     public function testSetLocaleFunction(): void
     {
-        $country = new Country(Country::US, 'it');
+        $country = new Country(CountryCode::IT);
+        $country->setLocale(LocaleCode::ITALIAN);
 
-        $this->assertEquals('America del Nord', $country->getContinent());
-        $this->assertEquals('Stati Uniti d\'America', $country->getName());
+        $this->assertEquals('Europa', $country->getContinent());
+        $this->assertEquals('Italia', $country->getName());
+        $this->assertEquals('Roma', $country->getCapital());
     }
 
     /**
      * @return void
-     */
-    public function testGetCurrenciesFunction(): void
-    {
-        $country = new Country(Country::US);
-
-        $this->assertEquals([
-            Currency::USD,
-        ], $country->getCurrencies()->toArray());
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetTimezonesFunction(): void
-    {
-        $country = new Country(Country::US);
-
-        $this->assertEquals([
-            Timezone::AMERICA_ADAK,
-            Timezone::AMERICA_ANCHORAGE,
-            Timezone::AMERICA_BOISE,
-            Timezone::AMERICA_CHICAGO,
-            Timezone::AMERICA_DENVER,
-            Timezone::AMERICA_DETROIT,
-            Timezone::AMERICA_INDIANA_INDIANAPOLIS,
-            Timezone::AMERICA_INDIANA_KNOX,
-            Timezone::AMERICA_INDIANA_MARENGO,
-            Timezone::AMERICA_INDIANA_PETERSBURG,
-            Timezone::AMERICA_INDIANA_TELL_CITY,
-            Timezone::AMERICA_INDIANA_VEVAY,
-            Timezone::AMERICA_INDIANA_VINCENNES,
-            Timezone::AMERICA_INDIANA_WINAMAC,
-            Timezone::AMERICA_JUNEAU,
-            Timezone::AMERICA_KENTUCKY_LOUISVILLE,
-            Timezone::AMERICA_KENTUCKY_MONTICELLO,
-            Timezone::AMERICA_LOS_ANGELES,
-            Timezone::AMERICA_MENOMINEE,
-            Timezone::AMERICA_METLAKATLA,
-            Timezone::AMERICA_NEW_YORK,
-            Timezone::AMERICA_NOME,
-            Timezone::AMERICA_NORTH_DAKOTA_BEULAH,
-            Timezone::AMERICA_NORTH_DAKOTA_CENTER,
-            Timezone::AMERICA_NORTH_DAKOTA_NEW_SALEM,
-            Timezone::AMERICA_PHOENIX,
-            Timezone::AMERICA_SITKA,
-            Timezone::AMERICA_YAKUTAT,
-            Timezone::PACIFIC_HONOLULU,
-        ], $country->getTimezones()->toArray());
-    }
-
-    /**
-     * @return void
-     */
-    public function testGetLanguagesFunction(): void
-    {
-        $country = new Country(Country::US);
-
-        $this->assertEquals([
-            Language::ENGLISH,
-        ], $country->getLanguages()->toArray());
-    }
-
-    /**
-     * @return void
+     * @throws InvalidCountryCodeException
      */
     public function testGetAllCountriesFunction(): void
     {
@@ -183,34 +189,53 @@ class CountryTest extends TestCase
 
     /**
      * @return void
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidCountryCodeException
      */
     public function testFilterCountriesByCurrencyFunction(): void
     {
-        $this->assertCount(19, Country::all()->withCurrency(Currency::USD));
+        $this->assertCount(19, Country::all()->usingCurrency(CurrencyCode::USD));
     }
 
     /**
      * @return void
+     * @throws InvalidLanguageCodeException
+     * @throws InvalidCountryCodeException
      */
     public function testFilterCountriesByLanguageFunction(): void
     {
-        $this->assertCount(88, Country::all()->speaking(Language::ENGLISH));
+        $this->assertCount(88, Country::all()->usingLanguage(LanguageCode::ENGLISH));
     }
 
     /**
      * @return void
+     * @throws InvalidCountryCodeException
+     * @throws InvalidContinentCodeException
      */
     public function testFilterCountriesByContinentFunction(): void
     {
-        $this->assertCount(55, Country::all()->ofContinent(Continent::EUROPE));
+        $this->assertCount(55, Country::all()->ofContinent(ContinentCode::EUROPE));
     }
 
     /**
      * @return void
+     * @throws InvalidCountryCodeException
+     * @throws InvalidContinentCodeException
+     * @throws InvalidCurrencyCodeException
+     * @throws InvalidLanguageCodeException
      */
     public function testFilterCountriesChainedFunction(): void
     {
-        $this->assertCount(2, Country::all()->ofContinent(Continent::EUROPE)->speaking(Language::ENGLISH)->withCurrency(Currency::EUR));
+        $chained = Country::all()
+            ->ofContinent(ContinentCode::EUROPE)
+            ->usingLanguage(LanguageCode::ENGLISH)
+            ->usingCurrency(CurrencyCode::EUR);
+
+        $this->assertCount(2, $chained);
+        $this->assertEquals([
+            CountryCode::IE,
+            CountryCode::MT,
+        ], $chained->map(fn (CountryInterface $country) => $country->getCode())->values()->all());
     }
 
     /**
@@ -221,34 +246,9 @@ class CountryTest extends TestCase
     public static function listConstructors(): array
     {
         return [
-            [
-                Country::AD,
-                'Europe',
-                'Andorra',
-                'Andorra la Vella',
-                'AD',
-                'AND',
-                '+376',
-                '.ad',
-                'd-m-Y',
-                Currency::EUR,
-                Timezone::EUROPE_ANDORRA,
-                Language::CATALAN,
-            ],
-            [
-                Country::US,
-                'North America',
-                'United States of America',
-                'Washington, D.C.',
-                'US',
-                'USA',
-                '+1',
-                '.us',
-                'm-d-Y',
-                Currency::USD,
-                Timezone::AMERICA_NEW_YORK,
-                Language::ENGLISH,
-            ],
+            [CountryCode::AD, 'Europe', 'Andorra', 'Andorra la Vella', 'AD', 'AND', '+376', '.ad', 'd-m-Y', 'ad', CurrencyCode::EUR->value, TimezoneCode::EUROPE_ANDORRA->value, LanguageCode::CATALAN->value,],
+            [CountryCode::IT, 'Europe', 'Italy', 'Rome', 'IT', 'ITA', '+39', '.it', 'd-m-Y', 'it', CurrencyCode::EUR->value, TimezoneCode::EUROPE_ROME->value, LanguageCode::ITALIAN->value,],
+            [CountryCode::US, 'North America', 'United States of America', 'Washington, D.C.', 'US', 'USA', '+1', '.us', 'm-d-Y', 'us', CurrencyCode::USD->value, TimezoneCode::AMERICA_NEW_YORK->value, LanguageCode::ENGLISH->value,],
         ];
     }
 }

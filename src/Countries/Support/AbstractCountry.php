@@ -2,22 +2,38 @@
 
 namespace Macmotp\Countries\Support;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Macmotp\Continents\Exceptions\InvalidContinentCodeException;
+use Macmotp\Continents\Support\ContinentCode;
+use Macmotp\Continents\Support\ContinentFactory;
+use Macmotp\Continents\Support\ContinentInterface;
+use Macmotp\Currencies\Exceptions\InvalidCurrencyCodeException;
+use Macmotp\Currencies\Support\CurrencyCode;
+use Macmotp\Currency;
+use Macmotp\Language;
+use Macmotp\Languages\Exceptions\InvalidLanguageCodeException;
+use Macmotp\Languages\Support\LanguageCode;
+use Macmotp\Timezone;
+use Macmotp\Timezones\Exceptions\InvalidTimezoneCodeException;
+use Macmotp\Timezones\Support\TimezoneCode;
+
 /**
  * AbstractCountry abstract class
  */
-abstract class AbstractCountry implements CountryInterface
+abstract class AbstractCountry implements Arrayable, CountryInterface
 {
-    private string $continent;
-    private string $name;
-    private string $capital;
-    private string $code;
+    private ContinentInterface $continent;
+    private CountryName $name;
+    private CountryCapital $capital;
+    private CountryCode $code;
     private string $alpha3Code;
     private string $dialCode;
     private string $tld;
     private string $dateFormat;
-    private string $defaultCurrency;
-    private string $defaultTimezone;
-    private string $defaultLanguage;
+    private CountryFlag $flag;
+    private Currency $defaultCurrency;
+    private Timezone $defaultTimezone;
+    private Language $defaultLanguage;
     private Collection $currencies;
     private Collection $timezones;
     private Collection $languages;
@@ -25,9 +41,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Continent
      *
-     * @return string
+     * @return ContinentInterface
      */
-    public function getContinent(): string
+    public function getContinent(): ContinentInterface
     {
         return $this->continent;
     }
@@ -35,9 +51,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Name
      *
-     * @return string
+     * @return CountryName
      */
-    public function getName(): string
+    public function getName(): CountryName
     {
         return $this->name;
     }
@@ -45,9 +61,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Capital
      *
-     * @return string
+     * @return CountryCapital
      */
-    public function getCapital(): string
+    public function getCapital(): CountryCapital
     {
         return $this->capital;
     }
@@ -55,9 +71,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Code
      *
-     * @return string
+     * @return CountryCode
      */
-    public function getCode(): string
+    public function getCode(): CountryCode
     {
         return $this->code;
     }
@@ -103,11 +119,21 @@ abstract class AbstractCountry implements CountryInterface
     }
 
     /**
+     * Get Flag
+     *
+     * @return CountryFlag
+     */
+    public function getFlag(): CountryFlag
+    {
+        return $this->flag;
+    }
+
+    /**
      * Get Default Currency
      *
-     * @return string
+     * @return Currency
      */
-    public function getDefaultCurrency(): string
+    public function getDefaultCurrency(): Currency
     {
         return $this->defaultCurrency;
     }
@@ -115,9 +141,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Default Timezone
      *
-     * @return string
+     * @return Timezone
      */
-    public function getDefaultTimezone(): string
+    public function getDefaultTimezone(): Timezone
     {
         return $this->defaultTimezone;
     }
@@ -125,9 +151,9 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Get Default Language
      *
-     * @return string
+     * @return Language
      */
-    public function getDefaultLanguage(): string
+    public function getDefaultLanguage(): Language
     {
         return $this->defaultLanguage;
     }
@@ -165,12 +191,13 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Set Continent
      *
-     * @param string $continent
+     * @param ContinentCode $continentCode
      * @return CountryInterface
+     * @throws InvalidContinentCodeException
      */
-    public function setContinent(string $continent): CountryInterface
+    public function setContinent(ContinentCode $continentCode): CountryInterface
     {
-        $this->continent = $continent;
+        $this->continent = ContinentFactory::create($continentCode);
 
         return $this;
     }
@@ -178,11 +205,11 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Set Name
      *
-     * @param string $name
+     * @param CountryName $name
      *
      * @return CountryInterface
      */
-    public function setName(string $name): CountryInterface
+    public function setName(CountryName $name): CountryInterface
     {
         $this->name = $name;
 
@@ -192,11 +219,11 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Set Capital
      *
-     * @param string $capital
+     * @param CountryCapital $capital
      *
      * @return CountryInterface
      */
-    public function setCapital(string $capital): CountryInterface
+    public function setCapital(CountryCapital $capital): CountryInterface
     {
         $this->capital = $capital;
 
@@ -206,11 +233,11 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Set Code
      *
-     * @param string $code
+     * @param CountryCode $code
      *
      * @return CountryInterface
      */
-    public function setCode(string $code): CountryInterface
+    public function setCode(CountryCode $code): CountryInterface
     {
         $this->code = $code;
 
@@ -274,14 +301,29 @@ abstract class AbstractCountry implements CountryInterface
     }
 
     /**
-     * Set Default Currency
+     * Set Flag
      *
-     * @param string $defaultCurrency
+     * @param CountryFlag $flag
+     *
      * @return CountryInterface
      */
-    public function setDefaultCurrency(string $defaultCurrency): CountryInterface
+    public function setFlag(CountryFlag $flag): CountryInterface
     {
-        $this->defaultCurrency = $defaultCurrency;
+        $this->flag = $flag;
+
+        return $this;
+    }
+
+    /**
+     * Set Default Currency
+     *
+     * @param CurrencyCode $defaultCurrency
+     * @return CountryInterface
+     * @throws InvalidCurrencyCodeException
+     */
+    public function setDefaultCurrency(CurrencyCode $defaultCurrency): CountryInterface
+    {
+        $this->defaultCurrency = new Currency($defaultCurrency);
 
         return $this;
     }
@@ -289,12 +331,13 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Set Default Timezone
      *
-     * @param string $defaultTimezone
+     * @param TimezoneCode $defaultTimezone
      * @return CountryInterface
+     * @throws InvalidTimezoneCodeException
      */
-    public function setDefaultTimezone(string $defaultTimezone): CountryInterface
+    public function setDefaultTimezone(TimezoneCode $defaultTimezone): CountryInterface
     {
-        $this->defaultTimezone = $defaultTimezone;
+        $this->defaultTimezone = new Timezone($defaultTimezone);
 
         return $this;
     }
@@ -302,12 +345,13 @@ abstract class AbstractCountry implements CountryInterface
     /**
      * Set Default Language
      *
-     * @param string $defaultLanguage
+     * @param LanguageCode $defaultLanguage
      * @return CountryInterface
+     * @throws InvalidLanguageCodeException
      */
-    public function setDefaultLanguage(string $defaultLanguage): CountryInterface
+    public function setDefaultLanguage(LanguageCode $defaultLanguage): CountryInterface
     {
-        $this->defaultLanguage = $defaultLanguage;
+        $this->defaultLanguage = new Language($defaultLanguage);
 
         return $this;
     }
@@ -317,10 +361,15 @@ abstract class AbstractCountry implements CountryInterface
      *
      * @param Collection $currencies
      * @return CountryInterface
+     * @throws InvalidCurrencyCodeException
      */
     public function setCurrencies(Collection $currencies): CountryInterface
     {
-        $this->currencies = $currencies;
+        $collection = new Collection();
+        foreach ($currencies as $currencyCode) {
+            $collection->push(Currency::make($currencyCode));
+        }
+        $this->currencies = $collection;
 
         return $this;
     }
@@ -333,7 +382,11 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setTimezones(Collection $timezones): CountryInterface
     {
-        $this->timezones = $timezones;
+        $collection = new Collection();
+        foreach ($timezones as $timezoneCode) {
+            $collection->push(Timezone::make($timezoneCode));
+        }
+        $this->timezones = $collection;
 
         return $this;
     }
@@ -346,8 +399,39 @@ abstract class AbstractCountry implements CountryInterface
      */
     public function setLanguages(Collection $languages): CountryInterface
     {
-        $this->languages = $languages;
+        $collection = new Collection();
+        foreach ($languages as $languageCode) {
+            $collection->push(Language::make($languageCode));
+        }
+        $this->languages = $collection;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'continent' => $this->getContinent()->toArray(),
+            'name' => $this->getName()->value,
+            'capital' => $this->getCapital()->value,
+            'code' => $this->getCode()->value,
+            'alpha3_code' => $this->getAlpha3Code(),
+            'dial_code' => $this->getDialCode(),
+            'tld' => $this->getTld(),
+            'date_format' => $this->getDateFormat(),
+            'flag' => $this->getFlag()->value,
+            'default_currency' => $this->getDefaultCurrency()->toArray(),
+            'default_timezone' => $this->getDefaultTimezone()->toArray(),
+            'default_language' => $this->getDefaultLanguage()->toArray(),
+            'currencies' => $this->getCurrencies()->map(function (Currency $currency) {
+                return $currency->toArray();
+            })->toArray(),
+            'timezones' => $this->getTimezones()->map(function (Timezone $timezone) {
+                return $timezone->toArray();
+            })->toArray(),
+            'languages' => $this->getLanguages()->map(function (Language $language) {
+                return $language->toArray();
+            })->toArray(),
+        ];
     }
 }
