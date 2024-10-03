@@ -247,6 +247,8 @@ class CountryTest extends TestCase
     {
         return [
             [CountryCode::AD, 'Europe', 'Andorra', 'Andorra la Vella', 'AD', 'AND', '+376', '.ad', 'd-m-Y', 'ad', CurrencyCode::EUR->value, TimezoneCode::EUROPE_ANDORRA->value, LanguageCode::CATALAN->value,],
+            [CountryCode::IT, 'Europe', 'Italy', 'Rome', 'IT', 'ITA', '+39', '.it', 'd-m-Y', 'it', CurrencyCode::EUR->value, TimezoneCode::EUROPE_ROME->value, LanguageCode::ITALIAN->value,],
+            [CountryCode::US, 'North America', 'United States of America', 'Washington, D.C.', 'US', 'USA', '+1', '.us', 'm-d-Y', 'us', CurrencyCode::USD->value, TimezoneCode::AMERICA_NEW_YORK->value, LanguageCode::ENGLISH->value,],
         ];
     }
 }
