@@ -32,8 +32,7 @@ class LocaleTest extends TestCase
         string     $outputName,
         string     $outputEnglishName,
         string     $outputFlag,
-    ): void
-    {
+    ): void {
         $locale = new Locale($localeCode);
 
         $this->assertEquals($outputCode, $locale->getCode());

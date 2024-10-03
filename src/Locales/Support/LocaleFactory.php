@@ -3,7 +3,6 @@
 namespace Macmotp\Locales\Support;
 
 use Macmotp\Locales\Exceptions\InvalidLocaleCodeException;
-
 use Macmotp\Locales\Support\Locales\AR;
 use Macmotp\Locales\Support\Locales\DE;
 use Macmotp\Locales\Support\Locales\EN;
