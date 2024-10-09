@@ -91,6 +91,16 @@ class CountryTest extends TestCase
     /**
      * @return void
      */
+    public function testStringConstructor(): void
+    {
+        $country = new Country('it');
+
+        $this->assertEquals('IT', $country->getCode());
+    }
+
+    /**
+     * @return void
+     */
     public function testToArrayFunction(): void
     {
         $country = new Country(CountryCode::IT);
@@ -176,6 +186,58 @@ class CountryTest extends TestCase
         $this->assertEquals('Europa', $country->getContinent());
         $this->assertEquals('Italia', $country->getName());
         $this->assertEquals('Roma', $country->getCapital());
+    }
+
+    /**
+     * @return void
+     * @throws InvalidLocaleCodeException
+     */
+    public function testGetAllTranslationsFunction(): void
+    {
+        $country = new Country(CountryCode::IT);
+
+        $this->assertEquals([
+            'ar' => 'إيطاليا',
+            'de' => 'Italien',
+            'en' => 'Italy',
+            'es' => 'Italia',
+            'fr' => 'Italie',
+            'hu' => 'Olaszország',
+            'it' => 'Italia',
+            'ja' => 'イタリア',
+            'ko' => '이탈리아',
+            'nl' => 'Italië',
+            'pt' => 'Itália',
+            'ro' => 'Italia',
+            'ru' => 'Италия',
+            'zh' => '意大利',
+        ], $country->getTranslations()->toArray());
+    }
+
+    /**
+     * @return void
+     * @throws InvalidLocaleCodeException
+     */
+    public function testGetAllCapitalsTranslationsFunction(): void
+    {
+        $country = new Country(CountryCode::IT);
+
+        $this->assertEquals([
+            'ar' => 'روما',
+            'de' => 'Rom',
+            'en' => 'Rome',
+            'es' => 'Roma',
+            'fr' => 'Rome',
+            'hu' => 'Róma',
+            'it' => 'Roma',
+            'ja' => 'ローマ',
+            'ko' => '로마',
+            'nl' => 'Rome',
+            'pt' => 'Roma',
+            'ro' => 'Roma',
+            'ru' => 'Рим',
+            'zh' => '罗马',
+        ], $country->getCapitalTranslations()->toArray());
     }
 
     /**

@@ -263,4 +263,36 @@ class Country
 
         return $collection;
     }
+
+    /**
+     * Get all translations
+     *
+     * @return Collection
+     * @throws InvalidLocaleCodeException
+     */
+    public function getTranslations(): Collection
+    {
+        $translations = new Collection();
+        Locale::all()->each(function (LocaleInterface $locale) use (&$translations) {
+            $translations->put($locale->getCode()->value, $locale->translateCountry($this->country->getName()));
+        });
+
+        return $translations->sortKeys();
+    }
+
+    /**
+     * Get all translations for the capital
+     *
+     * @return Collection
+     * @throws InvalidLocaleCodeException
+     */
+    public function getCapitalTranslations(): Collection
+    {
+        $translations = new Collection();
+        Locale::all()->each(function (LocaleInterface $locale) use (&$translations) {
+            $translations->put($locale->getCode()->value, $locale->translateCapital($this->country->getCapital()));
+        });
+
+        return $translations->sortKeys();
+    }
 }

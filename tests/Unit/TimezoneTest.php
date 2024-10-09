@@ -49,6 +49,16 @@ class TimezoneTest extends TestCase
 
     /**
      * @return void
+     */
+    public function testStringConstructor(): void
+    {
+        $timezone = new Timezone('Europe/London');
+
+        $this->assertEquals('Europe/London', $timezone->getCode());
+    }
+
+    /**
+     * @return void
      * @throws InvalidTimezoneCodeException
      */
     public function testToArrayFunction(): void

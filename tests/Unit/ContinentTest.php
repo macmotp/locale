@@ -52,6 +52,16 @@ class ContinentTest extends TestCase
     /**
      * @return void
      */
+    public function testStringConstructor(): void
+    {
+        $continent = new Continent('eur');
+
+        $this->assertEquals('EUR', $continent->getCode());
+    }
+
+    /**
+     * @return void
+     */
     public function testToArrayFunction(): void
     {
         $continent = new Continent(ContinentCode::SOUTH_AMERICA);
@@ -81,6 +91,32 @@ class ContinentTest extends TestCase
     public function testGetAllContinentsFunction(): void
     {
         $this->assertCount(8, Continent::all());
+    }
+
+    /**
+     * @return void
+     * @throws InvalidLocaleCodeException
+     */
+    public function testGetAllTranslationsFunction(): void
+    {
+        $continent = new Continent(ContinentCode::EUROPE);
+
+        $this->assertEquals([
+            'ar' => 'أوروبا',
+            'de' => 'Europa',
+            'en' => 'Europe',
+            'es' => 'Europa',
+            'fr' => 'Europe',
+            'hu' => 'Európa',
+            'it' => 'Europa',
+            'ja' => 'ヨーロッパ',
+            'ko' => '유럽',
+            'nl' => 'Europa',
+            'pt' => 'Europa',
+            'ro' => 'Europa',
+            'ru' => 'Европа',
+            'zh' => '欧洲',
+        ], $continent->getTranslations()->toArray());
     }
 
     /**
