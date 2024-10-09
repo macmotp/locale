@@ -57,6 +57,16 @@ class LocaleTest extends TestCase
 
     /**
      * @return void
+     */
+    public function testStringConstructor(): void
+    {
+        $locale = new Locale('IT');
+
+        $this->assertEquals('it', $locale->getCode());
+    }
+
+    /**
+     * @return void
      * @throws InvalidLocaleCodeException
      */
     public function testToArrayFunction(): void

@@ -38,7 +38,7 @@ final class LocaleFactory
     {
         if (is_string($code)) {
             try {
-                $code = LocaleCode::from(strtoupper($code));
+                $code = LocaleCode::from(strtolower($code));
             } catch (ValueError $e) {
                 return throw new InvalidLocaleCodeException($e->getMessage());
             }

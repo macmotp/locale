@@ -14,3 +14,8 @@ All notable changes to `macmotp/locale` will be documented in this file
 - added flag property;
 - added translations of capitals;
 - added support for Hungarian (thanks @tamasori) and Romanian (thanks @mihaituhari) languages;
+
+## v1.0.1 - 2024-10-09
+
+- fixed issue on the locale, language, and timezone enums;
+- added function to retrieve all translations for both continents and countries;

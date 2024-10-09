@@ -1,6 +1,6 @@
 {
     "name": "macmotp/locale",
-    "version": "v1.0.0",
+    "version": "v1.0.1",
     "description": "A curated library to handle locale in PHP",
     "keywords": [
         "macmotp",

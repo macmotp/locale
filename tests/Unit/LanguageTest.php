@@ -49,6 +49,16 @@ class LanguageTest extends TestCase
 
     /**
      * @return void
+     */
+    public function testStringConstructor(): void
+    {
+        $language = new Language('IT');
+
+        $this->assertEquals('it', $language->getCode());
+    }
+
+    /**
+     * @return void
      * @throws InvalidLanguageCodeException
      */
     public function testToArrayFunction(): void

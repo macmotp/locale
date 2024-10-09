@@ -109,4 +109,20 @@ class Continent
 
         return $collection;
     }
+
+    /**
+     * Get all translations
+     *
+     * @return Collection
+     * @throws InvalidLocaleCodeException
+     */
+    public function getTranslations(): Collection
+    {
+        $translations = new Collection();
+        Locale::all()->each(function (LocaleInterface $locale) use (&$translations) {
+            $translations->put($locale->getCode()->value, $locale->translateContinent($this->continent->getName()));
+        });
+
+        return $translations->sortKeys();
+    }
 }

@@ -24,7 +24,7 @@ final class LanguageFactory
     {
         if (is_string($code)) {
             try {
-                $code = LanguageCode::from(strtoupper($code));
+                $code = LanguageCode::from(strtolower($code));
             } catch (ValueError $e) {
                 return throw new InvalidLanguageCodeException($e->getMessage());
             }

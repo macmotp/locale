@@ -24,7 +24,7 @@ final class TimezoneFactory
     {
         if (is_string($code)) {
             try {
-                $code = TimezoneCode::from(strtoupper($code));
+                $code = TimezoneCode::from($code);
             } catch (ValueError $e) {
                 return throw new InvalidTimezoneCodeException($e->getMessage());
             }
