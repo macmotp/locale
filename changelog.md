@@ -23,3 +23,7 @@ All notable changes to `macmotp/locale` will be documented in this file
 ## v1.0.2 - 2024-11-09
 
 - added support for Hindi, Indonesian, Malay, and Tamil languages;
+
+## v1.0.3 - 2024-11-09
+
+- fixed Tamil translations;
