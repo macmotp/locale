@@ -107,14 +107,18 @@ class ContinentTest extends TestCase
             'en' => 'Europe',
             'es' => 'Europa',
             'fr' => 'Europe',
+            'hi' => 'यूरोप',
             'hu' => 'Európa',
+            'id' => 'Eropa',
             'it' => 'Europa',
             'ja' => 'ヨーロッパ',
             'ko' => '유럽',
+            'ms' => 'Eropah',
             'nl' => 'Europa',
             'pt' => 'Europa',
             'ro' => 'Europa',
             'ru' => 'Европа',
+            'ta' => 'ஏரோப்',
             'zh' => '欧洲',
         ], $continent->getTranslations()->toArray());
     }

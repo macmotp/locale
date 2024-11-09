@@ -19,3 +19,7 @@ All notable changes to `macmotp/locale` will be documented in this file
 
 - fixed issue on the locale, language, and timezone enums;
 - added function to retrieve all translations for both continents and countries;
+
+## v1.0.2 - 2024-11-09
+
+- added support for Hindi, Indonesian, Malay, and Tamil languages;

@@ -87,7 +87,7 @@ class LocaleTest extends TestCase
      */
     public function testGetAllLocalesFunction(): void
     {
-        $this->assertCount(14, Locale::all());
+        $this->assertCount(18, Locale::all());
     }
 
     /**
@@ -104,14 +104,18 @@ class LocaleTest extends TestCase
             [LocaleCode::ENGLISH, 'en', 'English', 'English', 'gb'],
             [LocaleCode::FRENCH, 'fr', 'Français', 'French', 'fr'],
             [LocaleCode::GERMAN, 'de', 'Deutsche', 'German', 'de'],
+            [LocaleCode::HINDI, 'hi', 'हिन्दी', 'Hindi', 'in'],
             [LocaleCode::HUNGARIAN, 'hu', 'Magyar', 'Hungarian', 'hu'],
+            [LocaleCode::INDONESIAN, 'id', 'Bahasa Indonesia', 'Indonesian', 'id'],
             [LocaleCode::ITALIAN, 'it', 'Italiano', 'Italian', 'it'],
             [LocaleCode::JAPANESE, 'ja', '日本語', 'Japanese', 'jp'],
             [LocaleCode::KOREAN, 'ko', '한국인', 'Korean', 'kr'],
+            [LocaleCode::MALAY, 'ms', 'Bahasa Melayu', 'Malay', 'my'],
             [LocaleCode::PORTUGUESE, 'pt', 'Portuguese', 'Portuguese', 'pt'],
             [LocaleCode::ROMANIAN, 'ro', 'Romana', 'Romanian', 'ro'],
             [LocaleCode::RUSSIAN, 'ru', 'Русский', 'Russian', 'ru'],
             [LocaleCode::SPANISH, 'es', 'Español', 'Spanish', 'es'],
+            [LocaleCode::TAMIL, 'ta', 'தமிழ்', 'Tamil', 'ta'],
         ];
     }
 }
