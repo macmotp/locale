@@ -8,14 +8,18 @@ use Macmotp\Locales\Support\Locales\DE;
 use Macmotp\Locales\Support\Locales\EN;
 use Macmotp\Locales\Support\Locales\ES;
 use Macmotp\Locales\Support\Locales\FR;
+use Macmotp\Locales\Support\Locales\HI;
 use Macmotp\Locales\Support\Locales\HU;
+use Macmotp\Locales\Support\Locales\ID;
 use Macmotp\Locales\Support\Locales\IT;
 use Macmotp\Locales\Support\Locales\JA;
 use Macmotp\Locales\Support\Locales\KO;
+use Macmotp\Locales\Support\Locales\MS;
 use Macmotp\Locales\Support\Locales\NL;
 use Macmotp\Locales\Support\Locales\PT;
 use Macmotp\Locales\Support\Locales\RO;
 use Macmotp\Locales\Support\Locales\RU;
+use Macmotp\Locales\Support\Locales\TA;
 use Macmotp\Locales\Support\Locales\ZH;
 use ValueError;
 
@@ -51,14 +55,18 @@ final class LocaleFactory
             LocaleCode::ENGLISH => new EN(),
             LocaleCode::FRENCH => new FR(),
             LocaleCode::GERMAN => new DE(),
+            LocaleCode::HINDI => new HI(),
             LocaleCode::HUNGARIAN => new HU(),
+            LocaleCode::INDONESIAN => new ID(),
             LocaleCode::ITALIAN => new IT(),
             LocaleCode::JAPANESE => new JA(),
             LocaleCode::KOREAN => new KO(),
+            LocaleCode::MALAY => new MS(),
             LocaleCode::PORTUGUESE => new PT(),
             LocaleCode::ROMANIAN => new RO(),
             LocaleCode::RUSSIAN => new RU(),
             LocaleCode::SPANISH => new ES(),
+            LocaleCode::TAMIL => new TA(),
             default => throw new InvalidLocaleCodeException("Locale not supported: $code->value"),
         };
     }
