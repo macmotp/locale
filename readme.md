@@ -213,14 +213,18 @@ echo $country->setLocale(Locale::JAPANESE)->toArray();
 - `Locale::ENGLISH = 'en'`;
 - `Locale::SPANISH = 'es'`;
 - `Locale::FRENCH = 'fr'`;
+- `Locale::HINDI = 'hi'`;
 - `Locale::HUNGARIAN = 'hu'`;
+- `Locale::INDONESIAN = 'id'`;
 - `Locale::ITALIAN = 'it'`;
 - `Locale::JAPANESE = 'ja'`;
 - `Locale::KOREAN = 'ko'`;
+- `Locale::MALAY = 'ms'`;
 - `Locale::DUTCH = 'nl'`;
 - `Locale::PORTUGUESE = 'pt'`;
 - `Locale::ROMANIAN = 'ro'`;
 - `Locale::RUSSIAN = 'ru'`;
+- `Locale::TAMIL = 'ta'`;
 - `Locale::CHINESE = 'zh'`;
 
 ### Flags
